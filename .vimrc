@@ -57,11 +57,11 @@ set helplang=cn
 set foldcolumn=4
 " 光标遇到折叠就打开
 set foldopen=all
-"突出显示当前行
+" 突出显示当前行
 set cursorline
-"no bomb
+" no bomb 去掉UTF-8的bomb头
 set nobomb
-"line number
+" 显示行号
 set nu
 " Sets how many lines of history VIM has to remember
 set history=10000
@@ -86,8 +86,8 @@ autocmd! bufwritepost vimrc source ~/.vimrc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the curors - when moving vertical..
-set so=7
+" Set 5 lines to the curors - when moving vertical..
+set so=5
 
 set wildmenu "Turn on WiLd menu
 
@@ -122,22 +122,52 @@ set tm=500
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
+" => Colors and Fonts 设置配色和字体
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable "Enable syntax hl
+" 语言设置
+set langmenu=zh_CN.UTF-8
+set helplang=cn
+
+" 开启语法高亮
+syntax enable
+
+" 配置编辑器配色 start
+if has('gui_running')
+    set background=light
+else
+    set background=dark
+endif
+let g:solarized_termcolors=256
+colorscheme solarized
+colorscheme desert
+" 配置编辑器配色 ended
+
+" 光标处理
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+" 代码背景色处理
+if exists('$TMUX')
+    set term=screen-256color
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
+" => files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git anyway...
+" turn backup off, since most stuff is in svn, git anyway...
 set nobackup
 set nowb
 set noswapfile
 
-"Persistent undo
+"persistent undo
 try
-    if MySys() == "windows"
-        set undodir=C:\Windows\Temp
+    if mysys() == "windows"
+        set undodir=c:\windows\temp
     else
         set undodir=~/.vim_runtime/undodir
     endif
@@ -148,7 +178,7 @@ endtry
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
+" => text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set expandtab
 set shiftwidth=4
@@ -158,9 +188,9 @@ set smarttab
 set lbr
 set tw=500
 
-set ai "Auto indent
-set si "Smart indet
-set wrap "Wrap lines
+set ai "auto indent
+set si "smart indet
+set wrap "wrap lines
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -515,8 +545,33 @@ endfunction
 au FileType php call AddPHPFuncList()
 
 "启动vim后输入:NERDTree<Enter>, 我们还可以绑定一个快捷键
-nmap <F3> :NERDTree  <CR>
-let NERDTreeWinSize = 21
+"nmap <F3> :NERDTree  <CR>
+"let NERDTreeWinSize = 21
+
+" 列出当前目录文件  
+map <F3> :NERDTreeToggle<CR>
+imap <F3> <ESC> :NERDTreeToggle<CR>
+
+" 打开树状文件目录  
+map <C-F3> \be  
+:autocmd BufRead,BufNewFile *.dot map <F5> :w<CR>:!dot -Tjpg -o %<.jpg % && eog %<.jpg  <CR><CR> && exec "redr!"
+
+if has("autocmd")
+    autocmd BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \   exe "normal g`\"" |
+                \ endif
+endif
+"当打开vim且没有文件时自动打开NERDTree
+autocmd vimenter * if !argc() | NERDTree | endif
+" 只剩 NERDTree时自动关闭
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" 设置当文件被改动时自动载入
+set autoread
+" quickfix模式
+autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
+"代码补全 
+set completeopt=preview,menu 
 
 "ag instead of ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -530,7 +585,7 @@ let g:ctrlsf_auto_close = 0
 let g:ctrlsf_context = '-B 5 -A 3'
 
 " snipmate插件add author name in snips_author
-let g:snips_author = "liujingyu"
+let g:snips_author = "yedonghai"
 
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
@@ -643,14 +698,6 @@ let g:user_emmet_settings = {
   \  },
   \}
 
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
-colorscheme solarized
-let g:solarized_termcolors=256
-
 vmap "+y :w !pbcopy<CR><CR>
 nmap "+p :r !pbpaste<CR><CR>
 
@@ -660,20 +707,6 @@ noremap <leader>yy "*Y
 "在粘贴OS X剪贴板中的文本时保留缩进
 noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
 
-"光标处理
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
-
-"代码背景色处理
-if exists('$TMUX')
-    set term=screen-256color
-endif
-
-set tags+=/Users/apple/Develop/openapi
+"set tags+=/Users/apple/Develop/openapi
 "set autochdir
 "set tags=tags;
