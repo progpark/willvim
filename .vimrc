@@ -37,14 +37,14 @@ Plugin 'terryma/vim-expand-region'
 Plugin 'drmingdrmer/xptemplate'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'mattn/Gist-vim'
-"Plugin 'Yggdroot/indentLine'
 Plugin 'stephpy/vim-php-cs-fixer'
-"Plugin 'Valloric/YouCompleteMe'
 Plugin 'mattn/emmet-vim'
 Plugin 'mattn/webapi-vim'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'msanders/snipmate.vim'
 Plugin 'ekalinin/Dockerfile.vim'
+"Plugin 'Yggdroot/indentLine'
+"Plugin 'Valloric/YouCompleteMe'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -66,6 +66,8 @@ let g:syntastic_php_checkers=['php', 'phpcs', 'phpmd']
 
 " 代码补全
 set completeopt=preview,menu
+"打开文件类型检测, 加了这句才可以用智能补全
+set completeopt=longest,menu
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -144,6 +146,10 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
+" 不要使用vi的键盘模式，而是vim自己的
+set nocompatible
+" 在处理未保存或只读文件的时候，弹出确认
+set confirm
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -188,6 +194,15 @@ set nowritebackup
 " 不使用swp文件，注意!错误退出后无法恢复
 set noswapfile
 
+" 侦测文件类型
+filetype on
+
+" 载入文件类型插件
+filetype plugin on
+
+" 为特定文件类型载入相关缩进文件
+filetype indent on
+
 " persistent undo 持续撤销
 try
     if mysys() == "windows"
@@ -199,6 +214,9 @@ try
     set undofile
 catch
 endtry
+
+"自动保存
+set autowrite
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -216,6 +234,8 @@ set wrap
 set linebreak
 " 是一种 word wrap 的功能，从左起算之固定每行的最大字符宽度。超过此宽度就会自动折行并会插入EOL
 set textwidth=500
+" 带有如下符号的单词不要被换行分割
+set iskeyword+=_,$,@,%,#,-
 
 " 插入模式里: 插入 <Tab> 时使用合适数量的空格
 set expandtab
@@ -566,9 +586,12 @@ map <leader>q :e ~/buffer<cr>
 au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ===========================================
 
 map <leader>pp :setlocal paste!<cr>
-
 map <leader>bb :cd ..<cr>
+
+" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
 set mouse=a
+set selection=exclusive " 可选值 inclusive exclusive
+set selectmode=mouse,key
 
 " 当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
@@ -698,3 +721,4 @@ nmap "+p :r !pbpaste<CR><CR>
 "set tags+=/Users/apple/Develop/openapi
 "set autochdir
 "set tags=tags;
+
