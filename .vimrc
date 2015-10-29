@@ -1,15 +1,5 @@
-" 函数自动补全
-au FileType php setlocal dict+=~/.vim/dict/php_funclist.dict
-au FileType css setlocal dict+=~/.vim/dict/css.dict
-au FileType c setlocal dict+=~/.vim/dict/c.dict
-au FileType cpp setlocal dict+=~/.vim/dict/cpp.dict
-au FileType scale setlocal dict+=~/.vim/dict/scale.dict
-au FileType javascript setlocal dict+=~/.vim/dict/javascript.dict
-au FileType html setlocal dict+=~/.vim/dict/javascript.dict
-au FileType html setlocal dict+=~/.vim/dict/css.dict
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vundle
+" => Vundle 方式管理插件
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -31,7 +21,7 @@ Plugin 'bling/vim-airline'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'edsono/vim-matchit'
 Plugin 'majutsushi/tagbar'
-"Plugin 'jiazhoulvke/MarkdownView'
+Plugin 'jiazhoulvke/MarkdownView'
 Plugin 'Raimondi/delimitMate'
 Plugin 'scrooloose/syntastic'
 Plugin 'easymotion/vim-easymotion'
@@ -56,30 +46,53 @@ Plugin 'dyng/ctrlsf.vim'
 Plugin 'msanders/snipmate.vim'
 Plugin 'ekalinin/Dockerfile.vim'
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
+" 函数自动补全
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 启动的时候不显示那个援助索马里儿童的提示
-set shortmess=atl
+au FileType php setlocal dict+=~/.vim/dict/php_funclist.dict
+au FileType css setlocal dict+=~/.vim/dict/css.dict
+au FileType c setlocal dict+=~/.vim/dict/c.dict
+au FileType cpp setlocal dict+=~/.vim/dict/cpp.dict
+au FileType scale setlocal dict+=~/.vim/dict/scale.dict
+au FileType javascript setlocal dict+=~/.vim/dict/javascript.dict
+au FileType html setlocal dict+=~/.vim/dict/javascript.dict
+au FileType html setlocal dict+=~/.vim/dict/css.dict
+
+" syntastic相关
+execute pathogen#infect()
+let g:syntastic_python_checkers=['pylint']
+let g:syntastic_php_checkers=['php', 'phpcs', 'phpmd']
+
+" 代码补全
+set completeopt=preview,menu
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General 通用设置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 启动时不显示援助索马里儿童的提示
+set shortmess=atI
+" 语言设置
+set langmenu=zh_CN.UTF-8
 " 帮助文件使用中文
 set helplang=cn
 " 设置折叠模式
 set foldcolumn=4
 " 光标遇到折叠就打开
 set foldopen=all
+" no bomb 去掉UTF-8的bomb头
+set nobomb
+" 显示行号
+set number
+" 设置VIM 历史记录最大值
+set history=10000
+" 当文件在外部被修改，自动加载
+set autoread
 " 突出显示当前所在位置
 set ruler
 " 突出显示当前行
 "set cursorline
-" no bomb 去掉UTF-8的bomb头
-set nobomb
-" 显示行号
-set nu
-" Sets how many lines of history VIM has to remember
-set history=10000
-
-" Set to auto read when a file is changed from the outside
-set autoread
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -95,37 +108,38 @@ map <leader>e :e! ~/.vimrc<cr>
 " When vimrc is edited, reload it
 autocmd! bufwritepost vimrc source ~/.vimrc
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 5 lines to the curors - when moving vertical..
-set so=5
-
-set wildmenu "Turn on WiLd menu
-
-
-set cmdheight=2 "The commandbar height
-
-set hid "Change buffer - without saving
-
-" Set backspace config
-set backspace=eol,start,indent
+" 当光标所在行移动到文件顶部或者底部的时候，保持5行距离
+set scrolloff=5
+" Turn on Wild menu 增强模式中的命令行自动完成操作
+set wildmenu
+" The commandbar height 总是显示状态行
+set cmdheight=2
+" 可以在没有保存的情况下切换buffer
+set hid
+" 使回格键（backspace）正常处理indent, eol, start等
+set backspace=2
+" 允许backspace和光标键跨越行边界
 set whichwrap+=<,>,h,l
-
-set ignorecase "Ignore case when searching
+" 搜索忽略大小写
+set ignorecase
+" 搜索模式包含大写字符时不使用'ignorecase' 选项。只有在输入搜索模式并且打开'ignorecase' 选项时才会使用
 set smartcase
-
-set hlsearch "Highlight search things
-
-set incsearch "Make search act like search in modern browsers
-set nolazyredraw "Don't redraw while executing macros
-
-set magic "Set magic on, for regular expressions
-
-set showmatch "Show matching bracets when text indicator is over them
-set mat=2 "How many tenths of a second to blink
-
-" No sound on errors
+" 搜索逐字符高亮
+set hlsearch
+set incsearch
+" 不重绘而执行宏 Don't redraw while executing macros
+set nolazyredraw
+" 搜索时启用vim的正则规则
+set magic
+" 显示匹配的括号
+set showmatch
+" 匹配括号高亮的时间（单位是十分之一秒）
+set matchtime=2
+" 去掉输入错误的提示声音
 set noerrorbells
 set novisualbell
 set t_vb=
@@ -135,23 +149,8 @@ set tm=500
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts 设置配色和字体
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 语言设置
-set langmenu=zh_CN.UTF-8
-set helplang=cn
-
 " 开启语法高亮
 syntax enable
-
-" 配置编辑器配色 start
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
-let g:solarized_termcolors=256
-colorscheme solarized
-colorscheme desert
-" 配置编辑器配色 ended
 
 " 光标处理
 if exists('$TMUX')
@@ -167,15 +166,29 @@ if exists('$TMUX')
     set term=screen-256color
 endif
 
+" 配置编辑器配色 start
+"if has('gui_running')
+"    set background=light
+"else
+"    set background=dark
+"endif
+"let g:solarized_termcolors=256
+"colorscheme solarized
+color desert
+" 配置编辑器配色 ended
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" turn backup off, since most stuff is in svn, git anyway...
+" 禁止生成临时文件, since most stuff is in svn, git anyway...
 set nobackup
-set nowb
+" 写入期间也不启用备份文件
+set nowritebackup
+" 不使用swp文件，注意!错误退出后无法恢复
 set noswapfile
 
-"persistent undo
+" persistent undo 持续撤销
 try
     if mysys() == "windows"
         set undodir=c:\windows\temp
@@ -191,24 +204,35 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 打开新行时自动缩进
+set autoindent
+" 打开新行时智能自动缩进
+set smartindent
+" 打开C 程序自动缩进
+set cindent
+" 自动换行
+set wrap
+" 在空白或标点符号的地方换行，并不会插入EOL
+set linebreak
+" 是一种 word wrap 的功能，从左起算之固定每行的最大字符宽度。超过此宽度就会自动折行并会插入EOL
+set textwidth=500
+
+" 插入模式里: 插入 <Tab> 时使用合适数量的空格
 set expandtab
-set shiftwidth=4
-set tabstop=4
+" 在行和段开始处使用制表符
 set smarttab
-
-set lbr
-set tw=500
-
-set ai "auto indent
-set si "smart indet
-set wrap "wrap lines
+" 设置自动缩进为4个空格
+set shiftwidth=4
+" 设置制表符(tab键)的宽度为4个空格
+set tabstop=4
 
 " 将tab替换为空格
 nmap tt :%s/\t/    /g<CR>
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Visual mode related 可视和选择模式下配置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Really useful!
 "  In visual mode when you press * or # to search for the current selection
 vnoremap <silent> * :call VisualSearch('f')<CR>
@@ -311,8 +335,10 @@ map <leader>bd :Bclose<cr>
 map <leader>ba :1,300 bd!<cr>
 
 " Use the arrows to something usefull
-map <right> :bn<cr>
-map <left> :bp<cr>
+" 视图模式下右方向键不可移动光标
+"map <right> :bn<cr>
+" 视图模式下左方向键不可移动光标
+"map <left> :bp<cr>
 
 " Tab configuration
 map <leader>tn :tabnew<cr>
@@ -352,15 +378,13 @@ catch
 endtry
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Statusline
-""""""""""""""""""""""""""""""
-" Always hide the statusline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 启动显示状态行(1),总是显示状态行(2)
 set laststatus=2
-
-" Format the statusline
+" 状态行显示的信息
 set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c
-
 
 function! CurDir()
     let curdir = substitute(getcwd(), '/Users/apple/', "~/", "g")
@@ -378,7 +402,7 @@ endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Parenthesis/bracket expanding
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vnoremap $1 <esc>`>a)<esc>`<i(<esc>
 vnoremap $2 <esc>`>a]<esc>`<i[<esc>
 vnoremap $3 <esc>`>a}<esc>`<i{<esc>
@@ -394,10 +418,12 @@ inoremap $4 {<esc>o}<esc>O
 
 "inoremap lh android:layout_height 可以用snipmate脚本替换效率更高通用型更强
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Abbrevs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -433,16 +459,17 @@ map <leader>n :cn<cr>
 map <leader>p :cp<cr>
 
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => bufExplorer plugin
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
 map <leader>o :BufExplorer<cr>
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Minibuffer plugin
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:miniBufExplModSelTarget = 1
 let g:miniBufExplorerMoreThanOne = 2
 let g:miniBufExplModSelTarget = 0
@@ -461,7 +488,7 @@ map <leader>u :TMiniBufExplorer<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Omni complete functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -477,9 +504,9 @@ map <leader>sa zg
 map <leader>s? z=
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python section
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let python_highlight_all = 1
 au FileType python syn keyword pythonDecorator True None False self
 
@@ -496,9 +523,9 @@ au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => JavaScript section
-"""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au FileType javascript call JavaScriptFold()
 au FileType javascript setl fen
 au FileType javascript setl nocindent
@@ -521,9 +548,9 @@ function! JavaScriptFold()
 endfunction
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => MRU plugin
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
 
@@ -543,18 +570,23 @@ map <leader>pp :setlocal paste!<cr>
 map <leader>bb :cd ..<cr>
 set mouse=a
 
-"Tagbar
-nmap <F4> :TagbarToggle<CR>
-let g:Tb_MaxSize = 1
+" 当打开vim且没有文件时自动打开NERDTree
+autocmd vimenter * if !argc() | NERDTree | endif
+" 只剩 NERDTree时自动关闭
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-"启动vim后输入:NERDTree<Enter>,绑定一个快捷键 列出当前目录文件
+" 启动vim后输入:NERDTree<Enter>,绑定一个快捷键 列出当前目录文件
 map <F3> :NERDTreeToggle<CR>
-imap <F3> <ESC> :NERDTreeToggle<CR>
-let NERDTreeWinSize = 21
+" 设置目录树的宽度
+let NERDTreeWinSize = 25
+" 锁定不能通过<F3>关闭
+"imap <F3> <ESC> :NERDTreeToggle<CR>
 
-" 打开树状文件目录  
-map <C-F3> \be  
-:autocmd BufRead,BufNewFile *.dot map <F5> :w<CR>:!dot -Tjpg -o %<.jpg % && eog %<.jpg  <CR><CR> && exec "redr!"
+" Tagbar 打开标签栏
+nmap <F4> :TagbarToggle<CR>
+" 设置标签栏的宽度
+let g:tagbar_width=25
+let g:Tb_MaxSize = 2
 
 if has("autocmd")
     autocmd BufReadPost *
@@ -562,16 +594,9 @@ if has("autocmd")
                 \   exe "normal g`\"" |
                 \ endif
 endif
-"当打开vim且没有文件时自动打开NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif
-" 只剩 NERDTree时自动关闭
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-" 设置当文件被改动时自动载入
-set autoread
+
 " quickfix模式
 autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
-"代码补全 
-set completeopt=preview,menu 
 
 "ag instead of ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -598,43 +623,6 @@ let g:php_cs_fixer_fixers_list = "linefeed,short_tag,indentation"
 let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
 "let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
 "let g:php_cs_fixer_verbose = 0
-
-"youcompleteme.vim"
-let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
-nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
-let g:ycm_error_symbol = '>>'
-let g:ycm_warning_symbol = '>>'
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar' : 1,
-      \ 'qf' : 1,
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ 'unite' : 1,
-      \ 'text' : 1,
-      \ 'vimwiki' : 1,
-      \ 'pandoc' : 1,
-      \ 'infolog' : 1,
-      \ 'mail' : 1
-      \}
-let g:ycm_semantic_triggers =  {
-  \   'c' : ['->', '.'],
-  \   'objc' : ['->', '.'],
-  \   'ocaml' : ['.', '#'],
-  \   'cpp,objcpp' : ['->', '.', '::'],
-  \   'perl' : ['->'],
-  \   'php' : ['->', '::'],
-  \   'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
-  \   'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
-  \   'ruby' : ['.', '::'],
-  \   'lua' : ['.', ':'],
-  \   'erlang' : [':'],
-  \ }
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_min_num_of_chars_for_completion = 1
 
 "gist hub config
 "let g:gist_use_password_in_gitconfig = 1
@@ -701,11 +689,11 @@ let g:user_emmet_settings = {
 vmap "+y :w !pbcopy<CR><CR>
 nmap "+p :r !pbpaste<CR><CR>
 
-"将文本复制到OS X剪贴板中
-noremap <leader>y "*y
-noremap <leader>yy "*Y
-"在粘贴OS X剪贴板中的文本时保留缩进
-noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
+""将文本复制到OS X剪贴板中
+"noremap <leader>y "*y
+"noremap <leader>yy "*Y
+""在粘贴OS X剪贴板中的文本时保留缩进
+"noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
 
 "set tags+=/Users/apple/Develop/openapi
 "set autochdir

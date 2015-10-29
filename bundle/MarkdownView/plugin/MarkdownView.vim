@@ -28,16 +28,16 @@ endif
 "------------------------------------------------
 " Functions:{{{1
 "------------------------------------------------
-let s:markdownview_sfile = expand('<sfile>')
-python << EOA
-#coding=utf8
-import httplib,urllib,os,vim,markdown
-port = vim.eval('g:markdownview_port')
-css = vim.eval('g:markdownview_css')
-sfile = vim.eval('s:markdownview_sfile')
-sdir = os.path.dirname(sfile)
-httpClient = httplib.HTTPConnection('localhost', int(port))
-EOA
+"let s:markdownview_sfile = expand('<sfile>')
+"python << EOA
+"#coding=utf8
+"import httplib,urllib,os,vim,markdown
+"port = vim.eval('g:markdownview_port')
+"css = vim.eval('g:markdownview_css')
+"sfile = vim.eval('s:markdownview_sfile')
+"sdir = os.path.dirname(sfile)
+"httpClient = httplib.HTTPConnection('localhost', int(port))
+"EOA
 
 function! MarkdownView()
 let b:markdownview_started = 1
