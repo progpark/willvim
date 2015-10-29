@@ -1,3 +1,13 @@
+" 函数自动补全
+au FileType php setlocal dict+=~/.vim/dict/php_funclist.dict
+au FileType css setlocal dict+=~/.vim/dict/css.dict
+au FileType c setlocal dict+=~/.vim/dict/c.dict
+au FileType cpp setlocal dict+=~/.vim/dict/cpp.dict
+au FileType scale setlocal dict+=~/.vim/dict/scale.dict
+au FileType javascript setlocal dict+=~/.vim/dict/javascript.dict
+au FileType html setlocal dict+=~/.vim/dict/javascript.dict
+au FileType html setlocal dict+=~/.vim/dict/css.dict
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vundle
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -37,7 +47,7 @@ Plugin 'terryma/vim-expand-region'
 Plugin 'drmingdrmer/xptemplate'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'mattn/Gist-vim'
-Plugin 'Yggdroot/indentLine'
+"Plugin 'Yggdroot/indentLine'
 Plugin 'stephpy/vim-php-cs-fixer'
 "Plugin 'Valloric/YouCompleteMe'
 Plugin 'mattn/emmet-vim'
@@ -57,8 +67,10 @@ set helplang=cn
 set foldcolumn=4
 " 光标遇到折叠就打开
 set foldopen=all
+" 突出显示当前所在位置
+set ruler
 " 突出显示当前行
-set cursorline
+"set cursorline
 " no bomb 去掉UTF-8的bomb头
 set nobomb
 " 显示行号
@@ -91,7 +103,6 @@ set so=5
 
 set wildmenu "Turn on WiLd menu
 
-set ruler "Always show current position
 
 set cmdheight=2 "The commandbar height
 
@@ -191,6 +202,9 @@ set tw=500
 set ai "auto indent
 set si "smart indet
 set wrap "wrap lines
+
+" 将tab替换为空格
+nmap tt :%s/\t/    /g<CR>
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -529,28 +543,14 @@ map <leader>pp :setlocal paste!<cr>
 map <leader>bb :cd ..<cr>
 set mouse=a
 
-"php手册 打开PHP文件后，把光标移动到某个函数下，按大写的K键即可查看函数的文档内容
-autocmd FileType php setlocal keywordprg=pman
-
 "Tagbar
 nmap <F4> :TagbarToggle<CR>
-let g:Tb_MaxSize = 2
+let g:Tb_MaxSize = 1
 
-function! AddPHPFuncList()
-    set dictionary-=~/.vim/funclist.txt
-    set complete+=k
-endfunction
-
-"php函数自动补全
-au FileType php call AddPHPFuncList()
-
-"启动vim后输入:NERDTree<Enter>, 我们还可以绑定一个快捷键
-"nmap <F3> :NERDTree  <CR>
-"let NERDTreeWinSize = 21
-
-" 列出当前目录文件  
+"启动vim后输入:NERDTree<Enter>,绑定一个快捷键 列出当前目录文件
 map <F3> :NERDTreeToggle<CR>
 imap <F3> <ESC> :NERDTreeToggle<CR>
+let NERDTreeWinSize = 21
 
 " 打开树状文件目录  
 map <C-F3> \be  
