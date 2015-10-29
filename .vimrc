@@ -7,44 +7,52 @@ call vundle#begin()
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
-filetype plugin indent on    " required
+" 侦测文件类型
+filetype on
+" 针对不同的文件类型采用不同的缩进格式
+filetype indent on
+" 载入文件类型插件
 filetype plugin on
+" 启用自动补全
+filetype plugin indent on    " required
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdtree'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'kien/ctrlp.vim'
-Plugin 'mileszs/ack.vim'
-Plugin 'bling/vim-airline'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'edsono/vim-matchit'
-Plugin 'majutsushi/tagbar'
-Plugin 'jiazhoulvke/MarkdownView'
-Plugin 'Raimondi/delimitMate'
-Plugin 'scrooloose/syntastic'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'ldx/vim-manage-classpath'
-Plugin 'tomasr/molokai'
-Plugin 'leshill/vim-json'
-Plugin 'sjl/gundo.vim'
-Plugin 'tyru/open-browser.vim'
-Plugin 'anyakichi/vim-surround'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'ShowTrailingWhitespace'
-Plugin 'terryma/vim-expand-region'
-Plugin 'drmingdrmer/xptemplate'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'mattn/Gist-vim'
-Plugin 'stephpy/vim-php-cs-fixer'
-Plugin 'mattn/emmet-vim'
-Plugin 'mattn/webapi-vim'
-Plugin 'dyng/ctrlsf.vim'
-Plugin 'msanders/snipmate.vim'
-Plugin 'ekalinin/Dockerfile.vim'
-"Plugin 'Yggdroot/indentLine'
-"Plugin 'Valloric/YouCompleteMe'
+Bundle 'gmarik/Vundle.vim'
+Bundle 'tpope/vim-fugitive'
+Bundle 'scrooloose/nerdtree'
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'kien/ctrlp.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'bling/vim-airline'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'edsono/vim-matchit'
+Bundle 'majutsushi/tagbar'
+Bundle 'jiazhoulvke/MarkdownView'
+Bundle 'Raimondi/delimitMate'
+Bundle 'scrooloose/syntastic'
+Bundle 'easymotion/vim-easymotion'
+Bundle 'ldx/vim-manage-classpath'
+Bundle 'tomasr/molokai'
+Bundle 'leshill/vim-json'
+Bundle 'sjl/gundo.vim'
+Bundle 'tyru/open-browser.vim'
+Bundle 'anyakichi/vim-surround'
+Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'ShowTrailingWhitespace'
+Bundle 'terryma/vim-expand-region'
+Bundle 'drmingdrmer/xptemplate'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'mattn/Gist-vim'
+Bundle 'stephpy/vim-php-cs-fixer'
+Bundle 'mattn/emmet-vim'
+Bundle 'mattn/webapi-vim'
+Bundle 'dyng/ctrlsf.vim'
+Bundle 'msanders/snipmate.vim'
+Bundle 'ekalinin/Dockerfile.vim'
+Bundle 'Yggdroot/indentLine'
+Bundle 'gregsexton/gitv'
+Bundle 'tpope/vim-commentary'
+"Bundle 'Valloric/YouCompleteMe'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -158,21 +166,20 @@ set confirm
 " 开启语法高亮
 syntax enable
 
-" 光标处理
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
+" 此设置不适合Windows下secureCRT等工具
+"if exists('$TMUX')
+"    " 光标处理，编辑模式变成一个小竖条
+"    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"
+"    " 代码背景色处理
+"    set term=screen-256color
+"else
+"    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"endif
 
-" 代码背景色处理
-if exists('$TMUX')
-    set term=screen-256color
-endif
-
-" 配置编辑器配色 start
+" 配置编辑器配色，此配置不适合Windows下secureCRT等工具
 "if has('gui_running')
 "    set background=light
 "else
@@ -181,7 +188,6 @@ endif
 "let g:solarized_termcolors=256
 "colorscheme solarized
 color desert
-" 配置编辑器配色 ended
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -193,15 +199,6 @@ set nobackup
 set nowritebackup
 " 不使用swp文件，注意!错误退出后无法恢复
 set noswapfile
-
-" 侦测文件类型
-filetype on
-
-" 载入文件类型插件
-filetype plugin on
-
-" 为特定文件类型载入相关缩进文件
-filetype indent on
 
 " persistent undo 持续撤销
 try
@@ -334,6 +331,7 @@ func! CurrentFileDir(cmd)
     return a:cmd . " " . expand("%:p:h") . "/"
 endfunc
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -369,7 +367,6 @@ map <leader>tm :tabmove
 " When pressing <leader>cd switch to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>
 
-
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
     let l:currentBufNum = bufnr("%")
@@ -390,7 +387,7 @@ function! <SID>BufcloseCloseIt()
     endif
 endfunction
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
     set switchbuf=usetab
     set stal=2
@@ -508,7 +505,7 @@ map <leader>u :TMiniBufExplorer<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Omni complete functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -589,9 +586,9 @@ map <leader>pp :setlocal paste!<cr>
 map <leader>bb :cd ..<cr>
 
 " 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
-set mouse=a
-set selection=exclusive " 可选值 inclusive exclusive
-set selectmode=mouse,key
+"set mouse=a
+"set selection=exclusive " 可选值 inclusive exclusive
+"set selectmode=mouse,key
 
 " 当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
@@ -653,26 +650,50 @@ let g:gist_clip_command = 'pbcopy'
 let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
 
-"gitgutter
+" gitgutter 同git diff，可实时展现（git版本控制的）文件中修改的行
 let g:gitgutter_diff_args = '-w'
 let g:gitgutter_avoid_cmd_prompt_on_windows = 0
 let g:gitgutter_sign_column_always = 1
-" default value
 let g:gitgutter_max_signs = 500
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
 nmap <Leader>ha <Plug>GitGutterStageHunk
 nmap <Leader>hu <Plug>GitGutterRevertHunk
 nmap <Leader>hv <Plug>GitGutterPreviewHunk
+let g:gitgutter_enabled = 0 " 默认不展示
 let g:gitgutter_map_keys = 0
-let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_highlight_lines = 1
+let g:gitgutter_override_sign_column_highlight = 1
+"nnoremap <leader>gs :GitGutterToggle<CR>
+map <F6> :GitGutterToggle<CR>
 
-"molokai
+" molokai
 let g:molokai_original = 1
 let g:rehash256 = 1
 
-"airline
+" indentLine 此插件可以显示缩进对齐线，并设置通过<F5>来控制是否显示
+let g:indentLine_char = '┊'
+map <F5> :IndentLinesToggle<CR>
+
+" gitv插件，实现了用Vim查看Git的详细提交信息, 只需要打开Vim执行: gitv
+
+" vim-commentary 可以快速注释与反注释多行内容, 但是它的注释符使用的是 commentstring, 默认是 /* %s */
+" Visual模式下 gc 命令可以注释选中的行
+" 普通模式下 gcc 指令可以快速注释一行
+" gcu 可以撤销注释
+autocmd FileType python,shell,php set commentstring=#\ %s
+autocmd FileType mako set cms=##\ %s
+
+" airline 状态栏插件增强设置
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep = '▶'
+let g:airline_left_alt_sep = '❯'
+let g:airline_right_sep = '◀'
+let g:airline_right_alt_sep = '❮'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -712,13 +733,9 @@ let g:user_emmet_settings = {
 vmap "+y :w !pbcopy<CR><CR>
 nmap "+p :r !pbpaste<CR><CR>
 
-""将文本复制到OS X剪贴板中
-"noremap <leader>y "*y
-"noremap <leader>yy "*Y
-""在粘贴OS X剪贴板中的文本时保留缩进
-"noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
-
-"set tags+=/Users/apple/Develop/openapi
-"set autochdir
-"set tags=tags;
+"将文本复制到OS X剪贴板中
+noremap <leader>y "*y
+noremap <leader>yy "*Y
+"在粘贴OS X剪贴板中的文本时保留缩进
+noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
 
