@@ -1,4 +1,20 @@
-本人项目开发常用vim插件集
+### 简易安装方法：
+
+打开终端，执行下面的命令就自动安装好了：
+
+`wget -qO- https://raw.githubusercontent.com/progpark/willvim/master/install.sh | sh -x`
+
+- 重新打开vim即可看到效果
+
+### 了解更多vim使用的小技巧：
+
+[tips.md](tips.md)
+
+### 查看更新日志：
+
+[`update_log.md`](update_log.md)
+
+常用vim插件集
 ==========================
 * Plugin 'gmarik/Vundle.vim'
 * Plugin 'tpope/vim-fugitive'
