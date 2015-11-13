@@ -52,7 +52,7 @@ Bundle 'ekalinin/Dockerfile.vim'
 Bundle 'Yggdroot/indentLine'
 Bundle 'gregsexton/gitv'
 Bundle 'tpope/vim-commentary'
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -628,9 +628,6 @@ let g:ctrlsf_winsize = '30%'
 "let g:ctrlsf_winsize = '100'
 let g:ctrlsf_auto_close = 0
 let g:ctrlsf_context = '-B 5 -A 3'
-
-" snipmate插件add author name in snips_author
-let g:snips_author = "yedonghai"
 
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
