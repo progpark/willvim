@@ -1,24 +1,17 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vundle 方式管理插件
+" => https://github.com/gmarik/Vundle.vim#about
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+filetype off                  " required
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-
-" 侦测文件类型
-filetype on
-" 针对不同的文件类型采用不同的缩进格式
-filetype indent on
-" 载入文件类型插件
-filetype plugin on
-" 启用自动补全
-filetype plugin indent on    " required
 
 " let Vundle manage Vundle, required
 Bundle 'gmarik/Vundle.vim'
 Bundle 'tpope/vim-fugitive'
+Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'kien/ctrlp.vim'
@@ -29,7 +22,6 @@ Bundle 'edsono/vim-matchit'
 Bundle 'majutsushi/tagbar'
 Bundle 'jiazhoulvke/MarkdownView'
 Bundle 'Raimondi/delimitMate'
-Bundle 'scrooloose/syntastic'
 Bundle 'easymotion/vim-easymotion'
 Bundle 'ldx/vim-manage-classpath'
 Bundle 'tomasr/molokai'
@@ -54,10 +46,26 @@ Bundle 'gregsexton/gitv'
 Bundle 'tpope/vim-commentary'
 Bundle 'Valloric/YouCompleteMe'
 
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
+" 侦测文件类型
+filetype on
+" 针对不同的文件类型采用不同的缩进格式
+filetype indent on
+" 载入文件类型插件
+filetype plugin on
+" 启用自动补全
+filetype plugin indent on    " required
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 函数自动补全
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" 打开文件类型检测, 加了这句才可以用智能补全
+set completeopt=longest,menu
+
 au FileType php setlocal dict+=~/.vim/dict/php_funclist.dict
 au FileType css setlocal dict+=~/.vim/dict/css.dict
 au FileType c setlocal dict+=~/.vim/dict/c.dict
@@ -66,16 +74,6 @@ au FileType scale setlocal dict+=~/.vim/dict/scale.dict
 au FileType javascript setlocal dict+=~/.vim/dict/javascript.dict
 au FileType html setlocal dict+=~/.vim/dict/javascript.dict
 au FileType html setlocal dict+=~/.vim/dict/css.dict
-
-" syntastic相关
-execute pathogen#infect()
-let g:syntastic_python_checkers=['pylint']
-let g:syntastic_php_checkers=['php', 'phpcs', 'phpmd']
-
-" 代码补全
-set completeopt=preview,menu
-"打开文件类型检测, 加了这句才可以用智能补全
-set completeopt=longest,menu
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -696,6 +694,11 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_section_x = '%{strftime("%c")}%'
 
+" syntastic相关
+execute pathogen#infect()
+let g:syntastic_python_checkers=['pylint']
+let g:syntastic_php_checkers=['php', 'phpcs', 'phpmd']
+
 "easymotion
 let g:EasyMotion_leader_key = '<Leader><Leader>'
 map  / <Plug>(easymotion-sn)
@@ -726,6 +729,44 @@ let g:user_emmet_settings = {
   \    'extends' : 'html',
   \  },
   \}
+
+"youcompleteme.vim
+let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_error_symbol = '>>'
+let g:ycm_warning_symbol = '>>'
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'unite' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'mail' : 1
+      \}
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \   'objc' : ['->', '.'],
+  \   'ocaml' : ['.', '#'],
+  \   'cpp,objcpp' : ['->', '.', '::'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
+  \   'ruby' : ['.', '::'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_min_num_of_chars_for_completion = 1
 
 vmap "+y :w !pbcopy<CR><CR>
 nmap "+p :r !pbpaste<CR><CR>
