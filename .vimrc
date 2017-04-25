@@ -692,8 +692,8 @@ let g:ycm_min_num_of_chars_for_completion = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " snipmate 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:snips_owner = "(c) QuDian"
-let g:snips_author = "yedonghai <yedonghai@qudian.com>"
+let g:snips_owner = "(c) MainPHP"
+let g:snips_author = "yedonghai <master@mainphp.com>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
