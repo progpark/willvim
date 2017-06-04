@@ -33,7 +33,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'                            " Vim插件管理包，必须
-Plugin 'altercation/vim-colors-solarized'             " Vim配色方案
+"Plugin 'altercation/vim-colors-solarized'             " Vim配色方案
 Plugin 'tomasr/molokai'                               " Vim配色方案
 Plugin 'scrooloose/nerdtree'                          " 左侧导航目录树
 Plugin 'majutsushi/tagbar'                            " 右侧标签目录树
@@ -54,7 +54,6 @@ Plugin 'kien/ctrlp.vim'                               " 文件快速搜索插件
 Plugin 'dyng/ctrlsf.vim'                              " 仿Sublime的全局搜索插件
 Plugin 'Valloric/YouCompleteMe'                       " 代码自动补全
 Plugin 'msanders/snipmate.vim'                        " 代码自动完成
-Plugin 'drmingdrmer/xptemplate'                       " 强大的代码片段自动补全
 Plugin 'godlygeek/tabular'                            " 必须在vim-markdow前加载
 Plugin 'plasticboy/vim-markdown'                      " 设置markdown语法高亮
 Plugin 'MarcWeber/vim-addon-mw-utils'
@@ -439,31 +438,6 @@ au FileType python map <buffer> <leader>D ?def
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => JavaScript section
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au FileType javascript call JavaScriptFold()
-au FileType javascript setl fen
-au FileType javascript setl nocindent
-
-au FileType javascript imap <c-t> AJS.log();<esc>hi
-au FileType javascript imap <c-a> alert();<esc>hi
-
-au FileType javascript inoremap <buffer> $r return
-au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
-
-function! JavaScriptFold()
-    setl foldmethod=syntax
-    setl foldlevelstart=1
-    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
-
-    function! FoldText()
-        return substitute(getline(v:foldstart), '{.*', '{...}', '')
-    endfunction
-    setl foldtext=FoldText()
-endfunction
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => MISC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
@@ -493,7 +467,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " 启动vim后输入:NERDTree<Enter>,绑定一个快捷键 列出当前目录文件
 map <F3> :NERDTreeToggle<CR>
 " 锁定不能通过<F3>关闭
-"imap <F3> <ESC> :NERDTreeToggle<CR>
+" imap <F3> <ESC> :NERDTreeToggle<CR>
 " 设置NERDTree子窗口位置
 let NERDTreeWinPos="left"
 " 设置目录树的宽度
@@ -502,6 +476,10 @@ let NERDTreeWinSize = 32
 let NERDTreeShowHidden=1
 " 删除文件时自动删除文件对应 buffer
 let NERDTreeAutoDeleteBuffer=1
+" 隐藏项目树上额外信息，如帮助、提示等
+" let NERDTreeMinimalUI=1
+" 隐藏指定文件
+let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules']
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
