@@ -1,18 +1,28 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                    Vim 环境下快捷键说明                                                      |
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" F1  ：快速显示桌面                                           " Ctrl + c             视图模式选中单个字符                     |
+" F2  ：快速显示Dashboard                                      " Ctrl + v             视图模式选中正行                         |
+" F3  ：快速切换Nerdtree的开启状态，默认开启                   " Command + [          切换tmux窗口                             |
+" F4  ：快速切换Tagbar的开启状态，默认关闭                     " Command + ]          切换tmux窗口                             |
+" F5  ：快速切换indentLine对齐线的开启撞他，默认开启           " Command + n          新打开一个iterm2窗口                     |
+" F6  ：快速查看Git修改状态，默认关闭                          " Command + w          关闭一个iterm2窗口                       |
+" F7  ：                                                       " Command + d          纵向切割iterm2窗口                       |
+" F8  ：                                                       " Shift + Command + d  横向切割iterm2窗口                       |
+" F9  ：                                                       " Ctrl + w             切换窗口内分区                           |
+" F10 ：                                                       " Ctrl + a             命令行切换至行首                         |
+" F11 ：快速向左切换buffer，并在当前窗口打开buffer             " Ctrl + e             命令行切换至行尾                         |
+" F12 ：快速向右切换buffer，并在当前窗口打开buffer             " Shift + r            刷新nerdtree目录树                       |
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                     Vim 环境下快捷键说明                     "
+"                     Ctags 使用说明                           "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" F1  ：快速显示桌面                                           "
-" F2  ：快速显示Dashboard                                      "
-" F3  ：快速切换Nerdtree的开启状态，默认开启                   "
-" F4  ：快速切换Tagbar的开启状态，默认关闭                     "
-" F5  ：快速切换indentLine对齐线的开启撞他，默认开启           "
-" F6  ：快速查看Git修改状态，默认关闭                          "
-" F7  ：                                                       "
-" F8  ：                                                       "
-" F9  ：                                                       "
-" F10 ：                                                       "
-" F11 ：快速向左切换buffer，并在当前窗口打开buffer             "
-" F12 ：快速向右切换buffer，并在当前窗口打开buffer             "
+" 1)、在项目根目录执行命令生成标签库：ctags -R *               "
+" 2)、从项目根目录打开要编辑的文件                             "
+" 3)、Ctrl + ] 查找函数主题（光标至于函数名称处）              "
+"     Ctrl + t 返回查找处                                      "
+" 4)、ctags 标签库与 ycm 及 gitv 有冲突：                      "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " With a map leader it's possible to do extra key combinations
@@ -65,8 +75,6 @@ Plugin 'sjl/gundo.vim'                                " 编辑文件时光机
 Plugin 'leshill/vim-json'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/Gist-vim'                               " Gist代码片段管理
-
-"Plugin 'terryma/vim-expand-region'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
