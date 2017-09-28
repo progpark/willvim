@@ -75,7 +75,6 @@ Plugin 'sjl/gundo.vim'                         " 编辑文件时光机
 Plugin 'leshill/vim-json'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/Gist-vim'                        " Gist代码片段管理
-Plugin 'jwalton512/vim-blade'                  " Laravel blade 模板支持
 
 "Plugin 'terryma/vim-expand-region'
 
@@ -206,7 +205,7 @@ set wrap
 " 在空白或标点符号的地方换行，并不会插入EOL
 set linebreak
 " 是一种 word wrap 的功能，从左起算之固定每行的最大字符宽度。超过此宽度就会自动折行并会插入EOL
-set textwidth=120
+set textwidth=500
 " 带有如下符号的单词不要被换行分割
 set iskeyword+=_,$,@,%,#,-
 " 插入模式里: 插入 <Tab> 时使用合适数量的空格
@@ -309,8 +308,10 @@ endfunc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map space to / (search)
+" Map space to / (search) and c-space to ? (backgwards search)
 map <space> /
+map <c-space> ?
+map <silent> <leader><cr> :noh<cr>
 
 " 绑定F11，快速向左切换buffer
 map <F11> :bp<CR>
@@ -368,8 +369,13 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Remap VIM 0
-" map 0 ^
-" map 9 $
+map 0 ^
+
+"Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 "Delete trailing white space, useful for Python ;)
 func! DeleteTrailingWS()
@@ -479,7 +485,6 @@ let g:ctrlsf_context = '-B 5 -A 3'
 let g:indentLine_char = '┊'
 map <F5> :IndentLinesToggle<CR>
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => gitgutter 同git diff，可实时展现（git版本控制的）文件中修改的行
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -510,8 +515,7 @@ map <F6> :GitGutterToggle<CR>
 " Visual模式下 gc 命令可以注释选中的行
 " 普通模式下 gcc 指令可以快速注释一行
 " gcu 可以撤销注释
-autocmd FileType python,shell set commentstring=#\ %s
-autocmd FileType php set commentstring=//\ %s
+autocmd FileType python,shell,php set commentstring=#\ %s
 autocmd FileType mako set cms=##\ %s
 
 
@@ -588,10 +592,8 @@ map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
-map <Leader>h <Plug>(easymotion-linebackward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
-map <Leader>l <Plug>(easymotion-lineforward)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -615,19 +617,19 @@ let g:ycm_filetype_blacklist = {
       \ 'infolog' : 1,
       \ 'mail' : 1
       \}
-let g:ycm_semantic_triggers =  {
-      \ 'c' : ['->', '.'],
-      \ 'objc' : ['->', '.'],
-      \ 'ocaml' : ['.', '#'],
-      \ 'cpp,objcpp' : ['->', '.', '::'],
-      \ 'perl' : ['->'],
-      \ 'php' : ['->', '::'],
-      \ 'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
-      \ 'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
-      \ 'ruby' : ['.', '::'],
-      \ 'lua' : ['.', ':'],
-      \ 'erlang' : [':'],
-      \ }
+" let g:ycm_semantic_triggers =  {
+"       \ 'c' : ['->', '.'],
+"       \ 'objc' : ['->', '.'],
+"       \ 'ocaml' : ['.', '#'],
+"       \ 'cpp,objcpp' : ['->', '.', '::'],
+"       \ 'perl' : ['->'],
+"       \ 'php' : ['->', '::'],
+"       \ 'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+"       \ 'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
+"       \ 'ruby' : ['.', '::'],
+"       \ 'lua' : ['.', ':'],
+"       \ 'erlang' : [':'],
+"       \ }
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_seed_identifiers_with_syntax = 1
@@ -646,11 +648,11 @@ nnoremap <leader>go :YcmCompleter GoToInclude<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tags=tags;
 set autochdir
-nmap <C-]> g]
 " 让YouCompleteMe同时利用原来的ctags
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_semantic_triggers = {}
 let g:ycm_semantic_triggers.c = ['->', '.', ' ', '(', '[', '&',']']
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -709,18 +711,6 @@ let g:vim_json_syntax_conceal = 1
 " vim-markdown 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vim_markdown_folding_disabled = 1
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim-blade 配置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Define some single Blade directives. This variable is used for highlighting only.
-let g:blade_custom_directives = ['datetime', 'javascript']
-" Define pairs of Blade directives. This variable is used for highlighting and indentation.
-let g:blade_custom_directives_pairs = {
-  \   'markdown': 'endmarkdown',
-  \   'cache': 'endcache',
-  \ }
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
