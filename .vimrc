@@ -454,8 +454,9 @@ au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ================================
 map <leader>pp :setlocal paste!<cr>
 map <leader>bb :cd ..<cr>
 
+" 可以使用鼠标在文本中滑动定位
+set mouse=a
 " 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
-"set mouse=a
 "set selection=exclusive " 可选值 inclusive exclusive
 "set selectmode=mouse,key
 
@@ -511,7 +512,7 @@ map <F6> :GitGutterToggle<CR>
 " 普通模式下 gcc 指令可以快速注释一行
 " gcu 可以撤销注释
 autocmd FileType python,shell set commentstring=#\ %s
-autocmd FileType php set commentstring=//\ %s
+autocmd FileType php,java,js set commentstring=//\ %s
 autocmd FileType mako set cms=##\ %s
 
 
@@ -693,13 +694,6 @@ let g:tagbar_compact=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" snipmate 配置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:snips_owner = "(c) QuDian"
-let g:snips_author = "yedonghai <yedonghai@qudian.com>"
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-json 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vim_json_syntax_conceal = 1
@@ -721,6 +715,13 @@ let g:blade_custom_directives_pairs = {
   \   'markdown': 'endmarkdown',
   \   'cache': 'endcache',
   \ }
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" snipmate 配置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:snips_owner = "(c) MainPHP"
+let g:snips_author = "yedonghai <yedonghai@mainphp.com>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
