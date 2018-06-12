@@ -43,10 +43,9 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'                     " Vim插件管理包，必须
-" Plugin 'altercation/vim-colors-solarized'      " Vim配色方案
-" Plugin 'tomasr/molokai'                        " Vim配色方案
+"Plugin 'altercation/vim-colors-solarized'      " Vim配色方案
+Plugin 'tomasr/molokai'                        " Vim配色方案
 Plugin 'scrooloose/nerdtree'                   " 左侧导航目录树
-Plugin 'vim-php/tagbar-phpctags.vim'           " 提供比原始ctags更好的PHP语法大纲支持
 Plugin 'majutsushi/tagbar'                     " 右侧标签目录树
 Plugin 'bling/vim-airline'                     " 用于配置美观的底部状态栏
 Plugin 'Yggdroot/indentLine'                   " 更加美观的显示缩进对齐线
@@ -76,7 +75,6 @@ Plugin 'sjl/gundo.vim'                         " 编辑文件时光机
 Plugin 'leshill/vim-json'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/Gist-vim'                        " Gist代码片段管理
-Plugin 'jwalton512/vim-blade'                  " Laravel blade 模板支持
 
 "Plugin 'terryma/vim-expand-region'
 
@@ -207,7 +205,7 @@ set wrap
 " 在空白或标点符号的地方换行，并不会插入EOL
 set linebreak
 " 是一种 word wrap 的功能，从左起算之固定每行的最大字符宽度。超过此宽度就会自动折行并会插入EOL
-set textwidth=120
+set textwidth=500
 " 带有如下符号的单词不要被换行分割
 set iskeyword+=_,$,@,%,#,-
 " 插入模式里: 插入 <Tab> 时使用合适数量的空格
@@ -310,8 +308,10 @@ endfunc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map space to / (search)
+" Map space to / (search) and c-space to ? (backgwards search)
 map <space> /
+map <c-space> ?
+map <silent> <leader><cr> :noh<cr>
 
 " 绑定F11，快速向左切换buffer
 map <F11> :bp<CR>
@@ -369,8 +369,13 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Remap VIM 0
-" map 0 ^
-" map 9 $
+map 0 ^
+
+"Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 "Delete trailing white space, useful for Python ;)
 func! DeleteTrailingWS()
@@ -455,9 +460,8 @@ au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ================================
 map <leader>pp :setlocal paste!<cr>
 map <leader>bb :cd ..<cr>
 
-" 可以用鼠标在文件中滑动定位
-set mouse=a
 " 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
+"set mouse=a
 "set selection=exclusive " 可选值 inclusive exclusive
 "set selectmode=mouse,key
 
@@ -473,10 +477,6 @@ let g:ctrlsf_position = 'bottom'
 let g:ctrlsf_winsize = '30%'
 let g:ctrlsf_auto_close = 0
 let g:ctrlsf_context = '-B 5 -A 3'
-" nmap     <C-F>f <Plug>CtrlSFPrompt
-nmap gf <Plug>CtrlSFPrompt
-" vmap     <C-F>f <Plug>CtrlSFVwordPath
-vmap gf <Plug>CtrlSFVwordPath
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -484,7 +484,6 @@ vmap gf <Plug>CtrlSFVwordPath
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indentLine_char = '┊'
 map <F5> :IndentLinesToggle<CR>
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => gitgutter 同git diff，可实时展现（git版本控制的）文件中修改的行
@@ -516,8 +515,7 @@ map <F6> :GitGutterToggle<CR>
 " Visual模式下 gc 命令可以注释选中的行
 " 普通模式下 gcc 指令可以快速注释一行
 " gcu 可以撤销注释
-autocmd FileType python,shell set commentstring=#\ %s
-autocmd FileType php set commentstring=//\ %s
+autocmd FileType python,shell,php set commentstring=#\ %s
 autocmd FileType mako set cms=##\ %s
 
 
@@ -594,10 +592,8 @@ map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
-map <Leader>h <Plug>(easymotion-linebackward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
-map <Leader>l <Plug>(easymotion-lineforward)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -621,19 +617,19 @@ let g:ycm_filetype_blacklist = {
       \ 'infolog' : 1,
       \ 'mail' : 1
       \}
-let g:ycm_semantic_triggers =  {
-      \ 'c' : ['->', '.'],
-      \ 'objc' : ['->', '.'],
-      \ 'ocaml' : ['.', '#'],
-      \ 'cpp,objcpp' : ['->', '.', '::'],
-      \ 'perl' : ['->'],
-      \ 'php' : ['->', '::'],
-      \ 'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
-      \ 'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
-      \ 'ruby' : ['.', '::'],
-      \ 'lua' : ['.', ':'],
-      \ 'erlang' : [':'],
-      \ }
+" let g:ycm_semantic_triggers =  {
+"       \ 'c' : ['->', '.'],
+"       \ 'objc' : ['->', '.'],
+"       \ 'ocaml' : ['.', '#'],
+"       \ 'cpp,objcpp' : ['->', '.', '::'],
+"       \ 'perl' : ['->'],
+"       \ 'php' : ['->', '::'],
+"       \ 'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+"       \ 'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
+"       \ 'ruby' : ['.', '::'],
+"       \ 'lua' : ['.', ':'],
+"       \ 'erlang' : [':'],
+"       \ }
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_seed_identifiers_with_syntax = 1
@@ -652,7 +648,6 @@ nnoremap <leader>go :YcmCompleter GoToInclude<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tags=tags;
 set autochdir
-nmap <C-]> g]
 " 让YouCompleteMe同时利用原来的ctags
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_semantic_triggers = {}
@@ -689,27 +684,14 @@ let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules']
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Tagbar 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 配置ctags的位置
-let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
-" 配置phpctags的位置
-let g:tagbar_phpctags_bin='/usr/bin/phpctags'
-" 配置phpctags可以使用的内存量
-let g:tagbar_phpctags_memory_limit = '512M'
+" let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 " Tagbar 打开标签栏
 nmap <F4> :TagbarToggle<CR>
 " 设置标签栏的宽度
-let g:tagbar_width=32
+let g:tagbar_width=25
 let g:Tb_MaxSize = 2
-" 设置 tagbar 子窗口的位置出现在主编辑区的右边
+" 设置 tagbar 子窗口的位置出现在主编辑区的左边
 let g:tagbar_compact=1
-" 开启自动预览(随着光标在标签上的移动，顶部会出现一个实时的预览窗口)
-" let g:tagbar_autopreview = 1
-" 启动时自动focus
-let g:tagbar_autofocus = 1
-" 关闭排序,即按标签本身在文件中的位置排序
-" let g:tagbar_sort = 0
-" 在某些情况下自动打开tagbar
-autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
