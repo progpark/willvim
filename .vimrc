@@ -72,10 +72,10 @@ Plugin 'scrooloose/syntastic'                  " 语法检查
 Plugin 'stephpy/vim-php-cs-fixer'              " 支持PSR的PHP代码格式化插件
 Plugin 'edsono/vim-matchit'                    " 匹配成对的标签，跳转
 Plugin 'easymotion/vim-easymotion'             " 跳转到光标后任意位置
-Plugin 'sjl/gundo.vim'                         " 编辑文件时光机
 Plugin 'leshill/vim-json'
-Plugin 'mattn/webapi-vim'
-Plugin 'mattn/Gist-vim'                        " Gist代码片段管理
+" Plugin 'sjl/gundo.vim'                         " 编辑文件时光机
+" Plugin 'mattn/webapi-vim'
+" Plugin 'mattn/Gist-vim'                        " Gist代码片段管理
 Plugin 'jwalton512/vim-blade'                  " Laravel blade 模板支持
 
 "Plugin 'terryma/vim-expand-region'
@@ -455,7 +455,7 @@ au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ================================
 map <leader>pp :setlocal paste!<cr>
 map <leader>bb :cd ..<cr>
 
-" 可以用鼠标在文件中滑动定位
+" 可以使用鼠标在文本中滑动定位
 set mouse=a
 " 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
 "set selection=exclusive " 可选值 inclusive exclusive
@@ -517,7 +517,7 @@ map <F6> :GitGutterToggle<CR>
 " 普通模式下 gcc 指令可以快速注释一行
 " gcu 可以撤销注释
 autocmd FileType python,shell set commentstring=#\ %s
-autocmd FileType php set commentstring=//\ %s
+autocmd FileType php,java,js set commentstring=//\ %s
 autocmd FileType mako set cms=##\ %s
 
 
@@ -659,7 +659,6 @@ let g:ycm_semantic_triggers = {}
 let g:ycm_semantic_triggers.c = ['->', '.', ' ', '(', '[', '&',']']
 
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -713,13 +712,6 @@ autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" snipmate 配置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:snips_owner = "(c) QuDian"
-let g:snips_author = "yedonghai <yedonghai@qudian.com>"
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-json 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vim_json_syntax_conceal = 1
@@ -729,6 +721,25 @@ let g:vim_json_syntax_conceal = 1
 " vim-markdown 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vim_markdown_folding_disabled = 1
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-blade 配置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Define some single Blade directives. This variable is used for highlighting only.
+let g:blade_custom_directives = ['datetime', 'javascript']
+" Define pairs of Blade directives. This variable is used for highlighting and indentation.
+let g:blade_custom_directives_pairs = {
+  \   'markdown': 'endmarkdown',
+  \   'cache': 'endcache',
+  \ }
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" snipmate 配置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:snips_owner = "(c) Qudian"
+let g:snips_author = "yedonghai <yedonghai@qudian.com>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
