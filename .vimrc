@@ -674,7 +674,7 @@ map <F3> :NERDTreeToggle<CR>
 " 设置NERDTree子窗口位置
 let NERDTreeWinPos="left"
 " 设置目录树的宽度
-let NERDTreeWinSize = 32
+let NERDTreeWinSize = 35
 " 显示隐藏文件
 let NERDTreeShowHidden=1
 " 隐藏指定文件
@@ -699,7 +699,7 @@ let g:tagbar_phpctags_bin='/usr/bin/phpctags'
 " 配置phpctags可以使用的内存量
 let g:tagbar_phpctags_memory_limit = '512M'
 " 设置标签栏的宽度
-let g:tagbar_width=32
+let g:tagbar_width=35
 let g:Tb_MaxSize = 2
 " 去掉第一行的帮助信息
 let g:tagbar_compact=1
