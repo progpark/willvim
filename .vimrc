@@ -738,8 +738,8 @@ let g:blade_custom_directives_pairs = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " snipmate 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:snips_owner = "(c) Qudian"
-let g:snips_author = "yedonghai <yedonghai@qudian.com>"
+let g:snips_owner = "(c) MainPHP"
+let g:snips_author = "yedonghai <yedonghai@mainphp.com>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
