@@ -135,7 +135,7 @@ colorscheme desert
 " colorscheme solarized
 " colorscheme molokai
 " 当光标所在行移动到文件顶部或者底部的时候，保持5行距离
-set scrolloff=5
+set scrolloff=1
 " Turn on Wild menu 增强模式中的命令行自动完成操作
 set wildmenu
 " The commandbar height 总是显示状态行
@@ -701,9 +701,9 @@ let NERDTreeChDirMode=2
 " => Tagbar 配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 设置tagbar同NERDTree在同一竖栏
-let g:tagbar_vertical = 15
+let g:tagbar_vertical=15
 " 配置ctags的位置
-let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 " 配置phpctags的位置
 let g:tagbar_phpctags_bin='/usr/bin/phpctags'
 " 配置phpctags可以使用的内存量
@@ -713,10 +713,8 @@ let g:tagbar_width=35
 let g:Tb_MaxSize = 2
 " 去掉第一行的帮助信息
 let g:tagbar_compact=1
-" 启动时自动focus
-" let g:tagbar_autofocus=1
-" 启动vim且已经打开NERDTree的情况下，自动打开tagbar
-" autocmd vimenter * nested if exists("b:NERDTree") | :TagbarOpen | endif
+" 单击跳转
+let g:tagbar_singleclick = 1
 " 启动vim时若未选中文件，则自动打开tagbar
 if !argc()
     autocmd vimenter * nested :TagbarOpen
