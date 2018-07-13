@@ -592,7 +592,7 @@ execute pathogen#infect()
 let g:syntastic_python_checkers=['pylint']
 let g:syntastic_html_checkers=['tidy', 'jshint']
 let g:syntastic_ignore_files=['.*\.html$', '.*\.htm$']
-let g:syntastic_php_checkers=['php', 'phpcs', 'phpmd']
+let g:syntastic_php_checkers=['php', 'phpcs --standard=PSR2', 'phpmd']
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -695,6 +695,8 @@ let NERDTreeAutoDeleteBuffer=1
 " let NERDTreeMinimalUI=1
 " 当前目录的设定
 let NERDTreeChDirMode=2
+" 指定鼠标模式（1.双击打开；2.单目录双文件；3.单击打开）
+let NERDTreeMouseMode=3
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
