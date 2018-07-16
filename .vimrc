@@ -688,7 +688,7 @@ let NERDTreeWinSize = 35
 " 显示隐藏文件
 let NERDTreeShowHidden=1
 " 隐藏指定文件
-let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules', '\.git$']
+let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules', '\.git$', '\.svn$', '\.cvs$', '\.idea$', '\.hg$']
 " 删除文件时自动删除文件对应 buffer
 let NERDTreeAutoDeleteBuffer=1
 " 隐藏项目树上额外信息，如帮助、提示等
